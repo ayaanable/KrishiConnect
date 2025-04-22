@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiConnect - Your AgroTech Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="antialiased">
+
+    <nav id="landing-nav" class="bg-white text-gray-800 p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-green-700 flex items-center" onclick="navigateTo('landing')">
+                <i class="fas fa-seedling mr-2"></i> KrishiConnect
+            </a>
+            <div class="space-x-2">
+                <button class="nav-link font-medium" data-page="login" onclick="navigateTo('login')">Login</button>
+                <button class="btn btn-primary text-sm" data-page="signup" onclick="navigateTo('signup')">Sign
+                    Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <nav id="main-nav" class="bg-green-700 text-white p-4 shadow-md hidden sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl font-bold nav-link flex items-center" data-page="dashboard">
+                <i class="fas fa-seedling mr-2"></i> KrishiConnect
+            </a>
+            <div class="space-x-1 md:space-x-2 text-sm md:text-base">
+                <a href="#" class="nav-link" data-page="dashboard"><i class="fas fa-tachometer-alt mr-1"></i>
+                    Dashboard</a>
+                <a href="#" class="nav-link" data-page="crop-doctor"><i class="fas fa-leaf mr-1"></i> Crop Doctor</a>
+                <a href="#" class="nav-link" data-page="market-prices"><i class="fas fa-dollar-sign mr-1"></i> Market
+                    Prices</a>
+                <a href="#" class="nav-link" data-page="knowledge-base"><i class="fas fa-book-open mr-1"></i>
+                    Knowledge</a>
+                <a href="#" class="nav-link" data-page="forum"><i class="fas fa-comments mr-1"></i> Forum</a>
+                <button id="logout-button" class="nav-link bg-red-600 hover:bg-red-700"><i
+                        class="fas fa-sign-out-alt mr-1"></i> Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-6 mt-4 min-h-[calc(100vh-150px)]">
+        <div id="page-landing" class="page active">
+            <section class="hero">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Smarter Farming Starts Here</h1>
+                <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">KrishiConnect provides Indian farmers with
+                    essential tools and information: AI crop diagnosis, real-time market prices, hyperlocal weather,
+                    expert knowledge, and a supportive community.</p>
+                <div class="space-x-4">
+                    <button class="btn btn-primary text-lg px-8 py-3" onclick="navigateTo('signup')">Get Started
+                        Free</button>
+                    <button class="btn btn-outline text-lg px-8 py-3 bg-white/80" onclick="navigateTo('login')">Member
+                        Login</button>
+                </div>
+            </section>
+
+            <section class="mb-12 py-8">
+                <h2 class="section-title">How KrishiConnect Helps You</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-4">
+                    <div>
+                        <i class="fas fa-user-plus step-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Sign Up & Personalize</h3>
+                        <p class="text-gray-600">Create your free account and tell us your location and primary crops
+                            for tailored insights.</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-th-large step-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Access Your Dashboard</h3>
+                        <p class="text-gray-600">Instantly see relevant weather, market prices, and alerts specific to
+                            your farm.</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-tools step-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Utilize Smart Tools</h3>
+                        <p class="text-gray-600">Use the AI Crop Doctor, explore the Knowledge Base, and connect with
+                            the community.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="mb-12 py-10 bg-white rounded-lg shadow-sm p-8">
+                <h2 class="section-title">Powerful Features at Your Fingertips</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="p-4">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Market Insights</h3>
+                        <p class="text-gray-600 text-sm">Real-time Mandi prices for your crops. Make informed decisions
+                            on when and where to sell.</p>
+                    </div>
+                    <div class="p-4">
+                        <i class="fas fa-robot feature-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">AI Crop Doctor</h3>
+                        <p class="text-gray-600 text-sm">Upload a leaf photo for instant disease diagnosis and remedy
+                            suggestions. Reduce crop loss.</p>
+                    </div>
+                    <div class="p-4">
+                        <i class="fas fa-cloud-sun-rain feature-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Hyperlocal Weather</h3>
+                        <p class="text-gray-600 text-sm">Accurate, location-specific forecasts (temperature, rain,
+                            humidity) to plan activities effectively.</p>
+                    </div>
+                    <div class="p-4">
+                        <i class="fas fa-book-reader feature-icon"></i>
+                        <h3 class="text-xl font-semibold mb-2">Knowledge Base</h3>
+                        <p class="text-gray-600 text-sm">Access easy-to-understand guides on modern techniques, soil
+                            health, and government schemes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12 py-8">
+                <h2 class="section-title">What Farmers Are Saying</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                    <div class="testimonial bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+                        <blockquote>"The market price feature helped me get a 15% better price for my wheat this season.
+                            KrishiConnect is essential now."</blockquote>
+                        <footer class="mt-2">- Rajesh P., Haryana</footer>
+                    </div>
+                    <div class="testimonial bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+                        <blockquote>"I used the Crop Doctor to identify blight early on my tomatoes and saved most of my
+                            crop. Very useful app!"</blockquote>
+                        <footer class="mt-2">- Meena K., Punjab</footer>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center bg-green-700 text-white p-10 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-4">Join Thousands of Successful Farmers</h2>
+                <p class="text-green-100 mb-6 text-lg">Take control of your farming with data-driven insights. Sign up
+                    is free!</p>
+                <button class="btn bg-white text-green-700 hover:bg-gray-100 text-lg px-8 py-3 font-semibold"
+                    onclick="navigateTo('signup')">Create Your Account</button>
+            </section>
+        </div>
+
+
+        <div id="page-login" class="page">
+            <div class="form-card">
+                <h2 class="form-title">Login to KrishiConnect</h2>
+                <form id="login-form">
+                    <div class="mb-5">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" name="username" required class="form-input"
+                            placeholder="Enter your username">
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" required class="form-input"
+                            placeholder="Enter your password">
+                    </div>
+                    <div class="mb-6">
+                        <button type="submit" class="btn btn-primary w-full py-3 font-semibold">
+                            Sign In
+                        </button>
+                    </div>
+                    <p id="login-error" class="form-error"></p>
+                    <p class="text-center text-gray-600 text-sm mt-6">
+                        Don't have an account? <a href="#" class="form-link font-medium"
+                            onclick="event.preventDefault(); navigateTo('signup');">Sign Up Here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div id="page-signup" class="page">
+            <div class="form-card">
+                <h2 class="form-title">Create Your KrishiConnect Account</h2>
+                <form id="signup-form">
+                    <div class="mb-4">
+                        <label for="signup-name" class="form-label">Full Name</label>
+                        <input type="text" id="signup-name" name="signup-name" required class="form-input"
+                            placeholder="Your Full Name">
+                    </div>
+                    <div class="mb-4">
+                        <label for="signup-username" class="form-label">Username</label>
+                        <input type="text" id="signup-username" name="signup-username" required class="form-input"
+                            placeholder="Choose a username (e.g., farmer1)">
+                    </div>
+                    <div class="mb-4">
+                        <label for="signup-location" class="form-label">Primary Location</label>
+                        <input type="text" id="signup-location" name="signup-location" required class="form-input"
+                            placeholder="e.g., Panipat, Haryana">
+                        <p class="text-xs text-gray-500 mt-1">Used for localized weather and market data.</p>
+                    </div>
+                    <div class="mb-6">
+                        <label for="signup-password" class="form-label">Password</label>
+                        <input type="password" id="signup-password" name="signup-password" required class="form-input"
+                            placeholder="Create a secure password (min. 6 characters)">
+                    </div>
+                    <div class="mb-6">
+                        <button type="submit" class="btn btn-primary w-full py-3 font-semibold">
+                            Create Account
+                        </button>
+                    </div>
+                    <p id="signup-error" class="form-error"></p>
+                    <p class="text-center text-gray-600 text-sm mt-6">
+                        Already have an account? <a href="#" class="form-link font-medium"
+                            onclick="event.preventDefault(); navigateTo('login');">Login Instead</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+
+        <div id="page-dashboard" class="page">
+            <div class="mb-6">
+                <h1 id="welcome-message" class="text-2xl md:text-3xl font-bold text-gray-800">Welcome!</h1>
+                <p id="user-location" class="text-gray-600 flex items-center"><i
+                        class="fas fa-map-marker-alt mr-1 text-gray-500"></i> Loading location...</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-cloud-sun-rain mr-2 text-blue-500"></i> Hyperlocal Weather</h3>
+                    <div id="weather-content" class="dashboard-card-content loading-placeholder">Loading weather...
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-dollar-sign mr-2 text-green-600"></i> Market Prices Summary</h3>
+                    <div id="market-prices-summary" class="dashboard-card-content loading-placeholder">Loading prices...
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-bell mr-2 text-red-500"></i> Alerts & Notifications</h3>
+                    <div id="alerts-content" class="dashboard-card-content loading-placeholder">Loading alerts...</div>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-leaf mr-2 text-lime-600"></i> AI Crop Doctor</h3>
+                    <div class="dashboard-card-content">
+                        <p class="mb-3 text-gray-600 text-sm">Upload a photo of a plant leaf to diagnose potential
+                            diseases.</p>
+                    </div>
+                    <button class="btn btn-primary w-full text-sm mt-auto" onclick="navigateTo('crop-doctor')">
+                        <i class="fas fa-upload mr-1"></i> Upload & Diagnose
+                    </button>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-book-open mr-2 text-indigo-600"></i> Knowledge Base</h3>
+                    <div class="dashboard-card-content">
+                        <p class="mb-3 text-gray-600 text-sm">Access guides on best farming practices, schemes, and
+                            more.</p>
+                    </div>
+                    <button class="btn btn-secondary w-full text-sm mt-auto" onclick="navigateTo('knowledge-base')">
+                        <i class="fas fa-search mr-1"></i> Explore Resources
+                    </button>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-comments mr-2 text-purple-600"></i> Community Connect</h3>
+                    <div class="dashboard-card-content">
+                        <p class="mb-3 text-gray-600 text-sm">Ask questions and share experiences with fellow farmers.
+                        </p>
+                    </div>
+                    <button class="btn btn-accent w-full text-sm mt-auto" onclick="navigateTo('forum')">
+                        <i class="fas fa-users mr-1"></i> Visit Forum
+                    </button>
+                </div>
+                <div class="dashboard-card md:col-span-2 lg:col-span-3">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center"><i
+                            class="fas fa-map-marked-alt mr-2 text-teal-600"></i> Farm Location Overview</h3>
+                    <div id="map" class="w-full h-[300px] rounded flex items-center justify-center text-gray-500">
+                        Map loading... Ensure location is set and has coordinates.
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">*Map centered based on your profile location (requires
+                        Latitude/Longitude). Satellite view shown.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-crop-doctor" class="page">
+            <h2 class="text-2xl font-bold mb-4">AI Crop Doctor</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="mb-4 text-gray-700">Upload an image (<code
+                        class="text-xs bg-gray-100 p-1 rounded">.jpg, .png, .jpeg, .webp</code>) of the affected plant
+                    leaf. Our AI will try to identify the disease and suggest remedies.</p>
+                <div class="mb-4 border-dashed border-2 border-gray-300 p-6 text-center rounded-lg hover:bg-gray-50 cursor-pointer"
+                    onclick="document.getElementById('crop-image-upload').click()">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                    <p class="mb-2 text-gray-500">Drag & drop your image here, or click to browse.</p>
+                    <input type="file" id="crop-image-upload" accept="image/png, image/jpeg, image/jpg, image/webp"
+                        class="hidden">
+                    <button type="button" class="btn btn-primary text-sm mt-2">Browse Files</button>
+                </div>
+                <div id="image-preview-container" class="mb-4 hidden text-center">
+                    <p class="text-sm text-gray-600 mb-2">Image Preview:</p>
+                    <img id="image-preview" src="#" alt="Image Preview"
+                        class="max-h-60 mx-auto rounded shadow-sm border border-gray-200" />
+                </div>
+                <div id="crop-doctor-message" class="text-center my-4 text-red-600 text-sm"></div>
+                <div id="diagnosis-loading" class="text-center my-4 hidden">
+                    <i class="fas fa-spinner fa-spin text-2xl text-green-600"></i>
+                    <p class="text-gray-600 text-sm mt-1">Analyzing image...</p>
+                </div>
+                <div id="crop-diagnosis-result" class="mt-4 hidden">
+                    <h4 class="font-semibold mb-2 text-lg">Diagnosis Result:</h4>
+                    <div class="bg-gray-50 p-4 rounded border border-gray-200">
+                        <p class="text-xl font-medium mb-1"><strong id="disease-name"></strong></p>
+                        <p id="disease-info" class="text-gray-700 mb-2"></p>
+                        <p class="font-semibold text-gray-800">Suggested Remedy:</p>
+                        <p id="disease-remedy" class="text-gray-700 mt-1"></p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">*Disclaimer: AI diagnosis is for informational purposes only and
+                    uses mock data for this demo. Consult with a local agricultural expert for confirmation.</p>
+            </div>
+        </div>
+
+        <div id="page-market-prices" class="page">
+            <h2 class="text-2xl font-bold mb-4">Detailed Market Prices</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+                <div class="mb-4 flex flex-wrap gap-4">
+                    <input type="text" id="market-search-crop" placeholder="Search Crop..."
+                        class="form-input flex-grow text-sm" onkeyup="filterMarketPrices()">
+                    <select id="market-select-mandi" class="form-input flex-grow text-sm"
+                        onchange="filterMarketPrices()">
+                        <option value="">All Mandis</option>
+                    </select>
+                </div>
+                <table class="w-full table-auto border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-4 text-left">Crop</th>
+                            <th class="py-3 px-4 text-left">Mandi</th>
+                            <th class="py-3 px-4 text-center">Price (INR)</th>
+                            <th class="py-3 px-4 text-center">Unit</th>
+                            <th class="py-3 px-4 text-center">Trend</th>
+                            <th class="py-3 px-4 text-center">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="market-prices-table-body" class="text-gray-700 text-sm font-light">
+                        <tr>
+                            <td colspan="6" class="text-center p-4 loading-placeholder">Loading market data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="page-knowledge-base" class="page">
+            <h2 class="text-2xl font-bold mb-4">Knowledge Base</h2>
+            <div class="mb-6">
+                <input type="text" id="knowledge-search" placeholder="Search articles by title, summary, or tag..."
+                    class="form-input w-full md:w-1/2" onkeyup="filterKnowledgeArticles()">
+            </div>
+            <div id="knowledge-articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <p class="text-center loading-placeholder md:col-span-2 lg:col-span-3">Loading articles...</p>
+            </div>
+        </div>
+
+        <div id="page-forum" class="page">
+            <h2 class="text-2xl font-bold mb-4">Community Forum</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h3 class="text-lg font-semibold mb-3">Ask a Question or Share Experience</h3>
+                <form id="new-post-form">
+                    <div class="mb-3">
+                        <label for="post-title" class="form-label">Title</label>
+                        <input type="text" id="post-title" required class="form-input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="post-content" class="form-label">Your Question/Message</label>
+                        <textarea id="post-content" rows="3" required class="form-input"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Post</button>
+                </form>
+            </div>
+
+            <div class="mb-4">
+                <input type="text" id="forum-search" placeholder="Search posts by title, content, or author..."
+                    class="form-input w-full md:w-1/2" onkeyup="filterForumPosts()">
+            </div>
+            <div id="forum-posts-container" class="space-y-4">
+                <p class="text-center loading-placeholder">Loading forum posts...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-gray-500 text-xs p-4 mt-8 border-t border-gray-200 bg-white">
+        &copy; <span id="footer-year"></span> KrishiConnect. Empowering Farmers. | <a href="#"
+            class="hover:underline">Privacy Policy</a> | <a href="#" class="hover:underline">Terms of Service</a>
+        <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+    </footer>
+    <script src="script.js"></script>
+    <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/04/22/18/20250422183249-M9YTUM1P.js"></script>
+</body>
+
+</html>
